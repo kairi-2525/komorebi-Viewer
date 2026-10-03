@@ -1,0 +1,5 @@
+*.zip
+*.zip.sha256
+*.exe
+*.exe.sha256
+PUBLISHING-CHECKLIST.txt
