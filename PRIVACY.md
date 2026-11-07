@@ -1,12 +1,14 @@
 # komorebiのデータの扱い
 
-最終更新: 2026-10-23。対象: komorebi 0.1.8。
+最終更新: 2026-11-07。対象: komorebi 0.1.10。
 
 komorebiは利用者のWindows PCで動作します。配布者へコメント・認証情報・利用状況を送信する収集サーバーや自動テレメトリーはありません。
 
 ## 取得と送信
 
-利用者が連携・接続したYouTubeまたはツイキャスから、配信とコメントのID、時刻、本文、表示名、投稿者ID、観測できるイベントを取得し、コメント表示と配信操作に使います。投稿者アイコンの取得ではサービスの画像配信先へ接続する場合があります。
+利用者が連携・接続したYouTube、ツイキャス、Twitchから、配信とコメントのID、時刻、本文、表示名、投稿者ID、観測できるイベントを取得し、コメント表示と配信操作に使います。投稿者アイコンの取得ではサービスの画像配信先へ接続する場合があります。
+
+Twitchは、利用者が指定したチャンネルのチャットへ、Twitchの `irc-ws.chat.twitch.tv`（WebSocket）へ匿名の受信専用で接続して受信します。Twitchアカウントでのログイン・認証情報の送信やコメントの投稿はしません。送信するのは接続とチャンネル参加に必要な情報だけで、受信したコメント本文・表示名・設定を送信しません。コメント内のTwitchエモートの画像は、本体が `static-cdn.jtvnw.net`（Twitchの画像配信先）から、エモートのIDだけを使って取得します。画像の取得にコメント本文・表示名・認証情報は送りませんが、接続先には通常のHTTP通信に伴うIPアドレス等が伝わります。取得した画像は本体のローカルサーバー経由でだけ表示し、配信画面・OBS・LAN公開の画面へ外部のURLを渡しません。画像はPC内のメモリに短期間保持し、表示のクリア・消去で破棄します。
 
 「アプリの更新」で利用者が確認・ダウンロードを操作した場合だけ、GitHubの公開配布先 `kairi-2525/komorebi-Viewer` のリリース情報と配布ファイルを取得します。起動時の自動確認・定期確認はありません。この通信ではコメント本文・表示名・サービス認証情報・設定・履歴を送信しません。接続先には通常のHTTP通信に伴うIPアドレス等が伝わり、[GitHubのプライバシー方針](https://docs.github.com/ja/site-policy/privacy-policies/github-general-privacy-statement)に従います。
 
@@ -34,6 +36,6 @@ OAuth認証の再利用に必要なトークン等は、手動キーとは別フ
 
 ## サービスと問い合わせ
 
-YouTube APIを利用します。[YouTube利用規約](https://www.youtube.com/t/terms)と[Googleプライバシーポリシー](https://policies.google.com/privacy)、[ツイキャス](https://twitcasting.tv/indexlicense.php)等の提供者の条件も確認してください。
+YouTube APIとTwitchのチャットを利用します。[YouTube利用規約](https://www.youtube.com/t/terms)と[Googleプライバシーポリシー](https://policies.google.com/privacy)、[ツイキャス](https://twitcasting.tv/indexlicense.php)、[Twitch利用規約](https://www.twitch.tv/p/ja-jp/legal/terms-of-service/)、[Twitchのプライバシー通知](https://www.twitch.tv/p/ja-jp/legal/privacy-notice/)等の提供者の条件も確認してください。
 
 問い合わせは [公開配布先のIssues](https://github.com/kairi-2525/komorebi-Viewer/issues) を使用してください。実コメント・認証値・管理URL・保存フォルダーは添付しないでください。この文書は公開配布先の `PRIVACY.md` と配布ZIPへ同梱します。配布者のOAuth同意画面での案内・サービス側の公開審査状態は、実アカウントでの確認事項です。
